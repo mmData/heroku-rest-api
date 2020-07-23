@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_restful import Resource, Api
 from flask_jwt import JWT
@@ -8,9 +9,9 @@ from resources.store import Store, StoreList
 
 
 
-
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+# The Postgres database link was added as an environment varianle in Heroku. sqlite is in the second position of the get and would be the deafault value
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #take off resource to track modifications
 app.secret_key = 'jose'
